@@ -44,6 +44,12 @@ Cada etapa deve produzir alterações revisáveis e evidências em branch própr
 
 ## Matriz de comprovação
 
+### Aplicação financeira
+
+Branch `feat/financial-workspace`: sessão SSR e proxy, cadastro/confirmação, login/logout e recuperação de senha, onboarding, seleção/criação de espaços, convites e integrantes, CRUD de transações com filtros/paginação, categorias próprias, dashboard e orçamento conectados ao schema `codex`. Migration 003 de relatórios aplicada no Supabase hospedado e local. A preferência de visualização é persistida.
+
+Validação local: 31 testes unitários, lint/tipos/build e testes SQL aprovados; seis E2E aprovados em desktop/mobile, incluindo confirmação/recuperação pelo Mailpit, cálculos A/C, reload/novo login, edição/exclusão e compartilhamento com duas contas. Tentativa de ação HTTP com espaço pessoal de outro usuário foi negada. Capturas do dashboard inspecionadas. Assistente e deploy continuam pendentes.
+
 ### Evidências da fundação
 
 - Next.js 16.4.5, React 19.3.1, TypeScript e Tailwind 4.3.4, com versões resolvidas em `package-lock.json`.

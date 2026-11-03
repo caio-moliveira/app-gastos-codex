@@ -64,6 +64,8 @@ begin
     select current_setting('test.space_a')::uuid, 'expense', 30, 'Privada', id, '2026-10-11'
     from codex.categories where space_id = current_setting('test.space_a')::uuid and name = 'Alimentação';
   insert into codex.budgets(space_id, category_id, month, limit_amount) values (v_shared, v_category, '2026-10-01', 1000);
+  if codex.financial_report(v_shared, '2026-10-01', '2026-10-31')->>'expense' <> '1200.00' then raise exception 'financial report total mismatch'; end if;
+  if codex.budget_report(v_shared, '2026-10-01')->0->>'spent' <> '1200.00' then raise exception 'budget report total mismatch'; end if;
   begin
     insert into codex.budgets(space_id, category_id, month, limit_amount) values (v_shared, v_category, '2026-10-01', 2000);
     raise exception 'duplicate budget succeeded';
@@ -111,6 +113,10 @@ begin
   -- Before invitation acceptance, shared data is inaccessible.
   if codex.is_member(current_setting('test.shared')::uuid) then raise exception 'membership preexists'; end if;
   if exists(select 1 from codex.transactions) then raise exception 'transactions leaked before joining'; end if;
+  begin
+    perform codex.financial_report(current_setting('test.shared')::uuid, '2026-10-01', '2026-10-31');
+    raise exception 'unauthorized report succeeded';
+  exception when insufficient_privilege then null; end;
   perform codex.accept_invitation(current_setting('test.token'));
   if not codex.is_member(current_setting('test.shared')::uuid) then raise exception 'membership missing after acceptance'; end if;
   begin
