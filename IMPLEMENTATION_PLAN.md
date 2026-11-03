@@ -6,7 +6,7 @@
 - Requisitos: `PRD.md` v1.0, de 02/11/2026; orientações locais: `AGENTS.md`.
 - `AGENT_WORKFLOW.md` foi criado após autorização explícita do usuário em 03/11/2026. Ele define branches por etapa, PRs, revisão documentada, gates de validação e integração por squash.
 - Preservar alterações preexistentes em `.env.example`, `.agents/`, `.claude/`, `AGENTS.md` e `skills-lock.json`. Nunca incluir `.env` em commits.
-- Workflow integrado pelo PR #1. Fundação em revisão no PR #2. Schema `codex` em implementação independente na branch `feat/codex-schema`; funcionalidades de domínio ainda pendentes.
+- Workflow integrado pelo PR #1 (`c223316`). Fundação integrada pelo PR #2 (`ee2b79e`), com CI aprovada. Schema `codex` em revisão no PR #3; funcionalidades de domínio ainda pendentes.
 - Decisão obrigatória do usuário: todas as tabelas da aplicação devem ficar no schema `codex`. Consultas, rotinas e políticas usarão o mesmo schema; `auth` permanece gerenciado pelo Supabase.
 - Migration `202611030001_codex_schema.sql` aplicada no banco real em 03/11/2026: schema criado, grants mínimos e privilégios padrão restritivos. `supabase/tests/schema.sql` passou e reverteu a tabela de teste; inspeção final confirmou `codex` existente e sem tabelas de domínio. Isso ainda não comprova RLS por usuário/espaço nem exposição na Data API.
 
@@ -42,6 +42,14 @@
 Cada etapa deve produzir alterações revisáveis e evidências em branch própria, com PR para `main`, revisão documentada, checks aplicáveis aprovados e merge por squash, conforme `AGENT_WORKFLOW.md`. Etapas independentes podem ficar em revisão simultaneamente; atualizar a base antes da integração quando necessário. A autorização do usuário inclui conduzir revisão e aprovação; documentar limitações reais do GitHub sobre autoaprovação sem simular aprovações de terceiros.
 
 ## Matriz de comprovação
+
+### Evidências da fundação
+
+- Next.js 16.4.5, React 19.3.1, TypeScript e Tailwind 4.3.4, com versões resolvidas em `package-lock.json`.
+- Validação local em 03/11/2026: lint sem warnings, typecheck, 18 testes Vitest e build de produção aprovados; dois testes Playwright aprovados (desktop e 375 px), incluindo teclado, idioma e ausência de overflow horizontal.
+- Capturas de tela desktop/mobile geradas em `test-results/` e inspecionadas visualmente. CI configurada para disponibilizar relatório e imagens como artefatos.
+- `npm audit --omit=dev` retornou zero vulnerabilidades. A auditoria completa apontou 16 registros moderados na cadeia de ferramentas ESLint, originados em minimatch <11.0.1; a correção automática sugerida faz downgrade incompatível. Pendência de dependências de desenvolvimento, sem tratá-la como resolvida ou aplicar downgrade cego.
+- Os testes de funções puras não comprovam os cenários A/C completos: banco, UI financeira e IA ainda não existem.
 
 | Requisito | Evidência necessária |
 | --- | --- |
