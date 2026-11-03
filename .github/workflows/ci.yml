@@ -27,6 +27,16 @@ jobs:
         run: npm run db:test
       - name: Lint database routines
         run: npx supabase db lint -s codex --fail-on error --level warning
+      - run: npx playwright install --with-deps chromium
+      - name: Verify full application against isolated Supabase
+        run: npm run test:app
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: application-report
+          path: |
+            playwright-report/
+            test-results/
 
   validate:
     runs-on: ubuntu-latest
