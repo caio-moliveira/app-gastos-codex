@@ -4,7 +4,7 @@ Aplicação de finanças pessoais, para casal e família, especificada em [PRD.m
 
 ## Estado atual
 
-Fundação Next.js, TypeScript, Tailwind CSS, testes e CI configurados. A página inicial é provisória: autenticação, persistência, espaços, dashboard e assistente ainda não estão implementados. Não há dados financeiros fictícios apresentados como reais.
+Fundação Next.js, TypeScript, Tailwind CSS, testes e CI configurados. Banco com as dez tabelas do domínio no schema `codex`, constraints e RLS. A página inicial é provisória: autenticação SSR, interface de dados, dashboard e assistente ainda não estão implementados. Não há dados financeiros fictícios apresentados como reais.
 
 ## Desenvolvimento
 
@@ -25,7 +25,9 @@ Variáveis previstas no PRD: `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_P
 - `src/lib/`: funções compartilhadas; dinheiro em centavos inteiros (`bigint`) e datas de calendário.
 - `tests/e2e/`: fluxos de navegador desktop e mobile (375 px).
 - `.github/workflows/ci.yml`: validação de PRs e `main`.
-- `supabase/migrations/`: destino das migrations SQL na próxima etapa. Todas as tabelas da aplicação serão criadas no schema `codex`, conforme instrução do usuário.
+- `supabase/migrations/`: migrations SQL; todas as tabelas da aplicação estão no schema `codex`, conforme instrução do usuário.
+- `supabase/tests/`: testes SQL de grants, regras e isolamento, com fixtures revertidas.
+- `scripts/sql.mjs`: executor administrativo de SQL; nunca usado pelo servidor da aplicação.
 
 ## Verificação
 
@@ -44,4 +46,6 @@ Os testes Playwright usam o build de produção (`npm run build` primeiro), inic
 
 ## Contribuição e entrega
 
-Siga [AGENTS.md](AGENTS.md), [AGENT_WORKFLOW.md](AGENT_WORKFLOW.md) e o [plano de implementação](IMPLEMENTATION_PLAN.md). Cada etapa exige branch, PR, revisão documentada e checks aplicáveis aprovados. Migrations, configuração de Auth, deploy Vercel e comprovação dos cenários reais permanecem pendentes.
+Siga [AGENTS.md](AGENTS.md), [AGENT_WORKFLOW.md](AGENT_WORKFLOW.md) e o [plano de implementação](IMPLEMENTATION_PLAN.md). Cada etapa exige branch, PR, revisão documentada e checks aplicáveis aprovados. Configuração de Auth da aplicação, deploy Vercel e comprovação dos cenários completos permanecem pendentes.
+
+Para aplicar migrations e testar o banco local ou hospedado, consulte [supabase/README.md](supabase/README.md). O [contrato de dados](docs/DATA_CONTRACT.md) descreve permissões, RPCs e erros. As migrations iniciais já foram aplicadas no ambiente hospedado configurado para esta execução; o deploy da aplicação e os cenários completos permanecem pendentes.
