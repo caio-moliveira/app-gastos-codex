@@ -6,7 +6,9 @@
 - Requisitos: `PRD.md` v1.0, de 02/11/2026; orientações locais: `AGENTS.md`.
 - `AGENT_WORKFLOW.md` foi criado após autorização explícita do usuário em 03/11/2026. Ele define branches por etapa, PRs, revisão documentada, gates de validação e integração por squash.
 - Preservar alterações preexistentes em `.env.example`, `.agents/`, `.claude/`, `AGENTS.md` e `skills-lock.json`. Nunca incluir `.env` em commits.
-- A aplicação ainda não foi implementada. A etapa de planejamento/fluxo está em revisão; os demais itens estão pendentes.
+- Workflow integrado pelo PR #1. Fundação em revisão no PR #2. Schema `codex` em implementação independente na branch `feat/codex-schema`; funcionalidades de domínio ainda pendentes.
+- Decisão obrigatória do usuário: todas as tabelas da aplicação devem ficar no schema `codex`. Consultas, rotinas e políticas usarão o mesmo schema; `auth` permanece gerenciado pelo Supabase.
+- Migration `202611030001_codex_schema.sql` aplicada no banco real em 03/11/2026: schema criado, grants mínimos e privilégios padrão restritivos. `supabase/tests/schema.sql` passou e reverteu a tabela de teste; inspeção final confirmou `codex` existente e sem tabelas de domínio. Isso ainda não comprova RLS por usuário/espaço nem exposição na Data API.
 
 ### Revalidação do ambiente — 03/11/2026
 
@@ -37,7 +39,7 @@
 6. **Assistente:** contrato de chat, consentimento persistido, conversas privadas e tools de leitura autorizadas por sessão/espaço. OpenRouter com modelo configurável, limites de consumo, histórico e resultados, timeouts e erros recuperáveis.
 7. **Qualidade e entrega:** revisar requisitos e mudanças, corrigir achados, executar todos os gates do workflow, integrar os PRs, aplicar migrations, configurar Auth e ambiente na Vercel, publicar e testar no domínio real.
 
-Cada etapa deve produzir alterações revisáveis e evidências em branch própria, com PR para `main`, revisão documentada, checks aplicáveis aprovados e merge por squash, conforme `AGENT_WORKFLOW.md`. A autorização do usuário inclui conduzir revisão e aprovação; documentar limitações reais do GitHub sobre autoaprovação sem simular aprovações de terceiros.
+Cada etapa deve produzir alterações revisáveis e evidências em branch própria, com PR para `main`, revisão documentada, checks aplicáveis aprovados e merge por squash, conforme `AGENT_WORKFLOW.md`. Etapas independentes podem ficar em revisão simultaneamente; atualizar a base antes da integração quando necessário. A autorização do usuário inclui conduzir revisão e aprovação; documentar limitações reais do GitHub sobre autoaprovação sem simular aprovações de terceiros.
 
 ## Matriz de comprovação
 
