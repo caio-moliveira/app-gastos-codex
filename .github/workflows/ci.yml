@@ -11,35 +11,22 @@ permissions:
 jobs:
   schema:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
-    services:
-      postgres:
-        image: postgres:17
-        env:
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: ci-test-only
-          POSTGRES_DB: nosso_bolso_test
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 5s
-          --health-timeout 5s
-          --health-retries 10
+    timeout-minutes: 15
     env:
-      PGHOST: localhost
-      PGPORT: 5432
-      PGUSER: postgres
-      PGPASSWORD: ci-test-only
-      PGDATABASE: nosso_bolso_test
+      DATABASE_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
     steps:
       - uses: actions/checkout@v4
-      - name: Create platform roles for schema permission tests
-        run: psql -X -v ON_ERROR_STOP=1 -c 'CREATE ROLE anon; CREATE ROLE authenticated; CREATE ROLE service_role;'
-      - name: Apply initial schema migration
-        run: psql -X -v ON_ERROR_STOP=1 -f supabase/migrations/202611030001_codex_schema.sql
-      - name: Verify schema permissions
-        run: psql -X -v ON_ERROR_STOP=1 -f supabase/tests/schema.sql
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - name: Start isolated Supabase and apply migrations
+        run: npx supabase start -x realtime,storage-api,imgproxy,postgres-meta,studio,edge-runtime,logflare,vector,supavisor
+      - name: Verify RLS, constraints and schema grants
+        run: npm run db:test
+      - name: Lint database routines
+        run: npx supabase db lint -s codex --fail-on error --level warning
 
   validate:
     runs-on: ubuntu-latest

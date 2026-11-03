@@ -6,9 +6,10 @@
 - Requisitos: `PRD.md` v1.0, de 02/11/2026; orientações locais: `AGENTS.md`.
 - `AGENT_WORKFLOW.md` foi criado após autorização explícita do usuário em 03/11/2026. Ele define branches por etapa, PRs, revisão documentada, gates de validação e integração por squash.
 - Preservar alterações preexistentes em `.env.example`, `.agents/`, `.claude/`, `AGENTS.md` e `skills-lock.json`. Nunca incluir `.env` em commits.
-- Workflow integrado pelo PR #1 (`c223316`). Fundação integrada pelo PR #2 (`ee2b79e`), com CI aprovada. Schema `codex` em revisão no PR #3; funcionalidades de domínio ainda pendentes.
+- Workflow integrado pelo PR #1 (`c223316`). Fundação integrada pelo PR #2 (`ee2b79e`), com CI aprovada. Schema `codex` integrado pelo PR #3 (`ed6151a`). Etapa de dados/RLS em desenvolvimento na branch `feat/domain-data-security`.
 - Decisão obrigatória do usuário: todas as tabelas da aplicação devem ficar no schema `codex`. Consultas, rotinas e políticas usarão o mesmo schema; `auth` permanece gerenciado pelo Supabase.
 - Migration `202611030001_codex_schema.sql` aplicada no banco real em 03/11/2026: schema criado, grants mínimos e privilégios padrão restritivos. `supabase/tests/schema.sql` passou e reverteu a tabela de teste; inspeção final confirmou `codex` existente e sem tabelas de domínio. Isso ainda não comprova RLS por usuário/espaço nem exposição na Data API.
+- Migration `202611030002_domain.sql` aplicada em seguida no banco real: dez tabelas em `codex`, todas com RLS, constraints compostas e permissões por coluna. Suíte SQL de duas identidades, espaços privados/compartilhados, convites, orçamento, privacidade e ações owner/member passou no banco hospedado e no Supabase local iniciado do zero. Fixtures revertidas. Lint de rotinas local sem erros. Integração HTTP, interface e autenticação SSR continuam pendentes.
 
 ### Revalidação do ambiente — 03/11/2026
 
