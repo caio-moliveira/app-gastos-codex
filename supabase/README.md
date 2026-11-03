@@ -15,6 +15,8 @@ psql -X -v ON_ERROR_STOP=1 -f supabase/tests/schema.sql
 
 O teste cria uma tabela temporária de validação dentro de uma transação revertida, verifica permissões do schema e nega exposição automática de tabelas novas. Não modifica dados de usuários.
 
+A CI reproduz esse teste em PostgreSQL 17 isolado, com os papéis de plataforma necessários. Essa verificação de grants não simula Supabase Auth nem comprova a integração pela Data API. A aplicação da migration e o teste também foram executados no Supabase real configurado localmente.
+
 ## API Supabase
 
 Antes de consultar tabelas pela Data API, inclua `codex` em **API Settings → Exposed schemas**, preservando os schemas existentes. Configure os clientes com `db: { schema: "codex" }`. Essa configuração não substitui grants nem políticas RLS.
