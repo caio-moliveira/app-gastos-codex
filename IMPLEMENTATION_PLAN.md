@@ -6,7 +6,8 @@
 - Requisitos: `PRD.md` v1.0, de 02/11/2026; orientações locais: `AGENTS.md`.
 - `AGENT_WORKFLOW.md` foi criado após autorização explícita do usuário em 03/11/2026. Ele define branches por etapa, PRs, revisão documentada, gates de validação e integração por squash.
 - Preservar alterações preexistentes em `.env.example`, `.agents/`, `.claude/`, `AGENTS.md` e `skills-lock.json`. Nunca incluir `.env` em commits.
-- A aplicação ainda não foi implementada. A etapa de planejamento/fluxo está em revisão; os demais itens estão pendentes.
+- O workflow foi integrado no PR #1 (`c223316`). A fundação foi implementada na branch `feat/project-foundation`; as funcionalidades do produto e as integrações reais permanecem pendentes.
+- Decisão obrigatória do usuário: criar o schema `codex`; todas as tabelas da aplicação, funções de domínio e políticas correspondentes devem usar esse schema. Configurar exposição do schema na API Supabase e clientes com `db.schema = codex`. O schema `auth` continua gerenciado pelo Supabase.
 
 ### Revalidação do ambiente — 03/11/2026
 
@@ -40,6 +41,14 @@
 Cada etapa deve produzir alterações revisáveis e evidências em branch própria, com PR para `main`, revisão documentada, checks aplicáveis aprovados e merge por squash, conforme `AGENT_WORKFLOW.md`. A autorização do usuário inclui conduzir revisão e aprovação; documentar limitações reais do GitHub sobre autoaprovação sem simular aprovações de terceiros.
 
 ## Matriz de comprovação
+
+### Evidências da fundação
+
+- Next.js 16.4.5, React 19.3.1, TypeScript e Tailwind 4.3.4, com versões resolvidas em `package-lock.json`.
+- Validação local em 03/11/2026: lint sem warnings, typecheck, 18 testes Vitest e build de produção aprovados; dois testes Playwright aprovados (desktop e 375 px), incluindo teclado, idioma e ausência de overflow horizontal.
+- Capturas de tela desktop/mobile geradas em `test-results/` e inspecionadas visualmente. CI configurada para disponibilizar relatório e imagens como artefatos.
+- `npm audit --omit=dev` retornou zero vulnerabilidades. A auditoria completa apontou 16 registros moderados na cadeia de ferramentas ESLint, originados em minimatch <11.0.1; a correção automática sugerida faz downgrade incompatível. Pendência de dependências de desenvolvimento, sem tratá-la como resolvida ou aplicar downgrade cego.
+- Os testes de funções puras não comprovam os cenários A/C completos: banco, UI financeira e IA ainda não existem.
 
 | Requisito | Evidência necessária |
 | --- | --- |
