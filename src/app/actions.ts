@@ -112,6 +112,11 @@ export async function act(
         }),
       );
       destination = "/dashboard";
+    } else if (op === "consent") {
+      const { client } = await identity();
+      if (raw.agree !== "yes") throw new Error("Marque a autorização para continuar.");
+      checked(await client.from("ai_consents").insert({ policy_version: "2026-11-03" }));
+      destination = "/assistente";
     } else if (op === "create-space") {
       const { client } = await identity();
       const result = await client.rpc("create_space", {

@@ -271,6 +271,28 @@ summary { cursor:pointer; }
 .category-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
 .settings-grid .text-link { margin:18px 0; }
 .app-footer { margin-top:auto; padding:20px 36px; font-size:10px; }
+.chat-layout { display:grid; grid-template-columns:190px minmax(0,1fr); gap:20px; }
+.conversation-list { display:flex; flex-direction:column; gap:16px; font-size:12px; overflow-wrap:anywhere; }
+.conversation-list h2 { font-weight:600; margin-top:12px; }
+.conversation-list p { color:var(--muted-foreground); line-height:1.6; }
+.chat-panel { min-width:0; height:660px; max-height:85dvh; background:var(--card); border:1px solid var(--border); border-radius:16px; padding:20px; display:flex; flex-direction:column; gap:16px; }
+.chat-context { display:flex; align-items:center; gap:12px; font-size:14px; }
+.chat-context svg { width:22px; height:22px; color:var(--primary); }
+.chat-context p { color:var(--muted-foreground); font-size:11px; margin-top:5px; }
+.chat-empty { margin:auto; text-align:center; max-width:440px; padding:24px 0; }
+.chat-empty>svg { width:32px; height:32px; color:var(--primary); margin:0 auto 16px; }
+.chat-empty h2 { font-size:22px; font-weight:600; }
+.chat-empty p { font-size:13px; line-height:1.6; color:var(--muted-foreground); margin:12px 0; }
+.suggestions { display:flex; flex-direction:column; gap:10px; margin-top:24px; }
+.suggestions button { height:auto; min-height:36px; white-space:normal; text-align:left; }
+.chat-composer { display:flex; gap:12px; align-items:flex-end; }
+.chat-composer>button { height:38px; }
+.consent-choice { display:flex; gap:12px; align-items:flex-start; line-height:1.7; margin:22px 0; font-size:14px; }
+.consent-choice input { margin-top:5px; width:18px; height:18px; flex-shrink:0; }
+.metric strong,.transaction-row>strong,.budget-amount { font-variant-numeric:tabular-nums; }
+button,a { touch-action:manipulation; }
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:0.01ms!important; transition-duration:0.01ms!important; } }
+@media(max-width:760px) { .chat-layout { grid-template-columns:minmax(0,1fr); }.conversation-list { max-height:150px; overflow:auto; }.chat-panel { padding:16px;height:650px;max-height:none; }.chat-composer { flex-direction:column;align-items:stretch; }.chat-composer>button { align-self:flex-end; } }
 .sidebar,.workspace,.report-grid>*,.metric-grid>* { min-width:0; }
 .space-switcher [data-slot=field-group] { min-width:0; }
 @media(max-width:1100px) { .metric-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .report-grid { grid-template-columns:1fr; } .main-content { padding:24px; } .profile-label>span:last-child { display:none; } }

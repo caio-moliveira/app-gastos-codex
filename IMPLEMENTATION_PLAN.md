@@ -44,6 +44,14 @@ Cada etapa deve produzir alterações revisáveis e evidências em branch própr
 
 ## Matriz de comprovação
 
+### Assistente e hospedagem
+
+PR #5 integrado (`573263b`), com CI completa aprovada. Branch `feat/financial-assistant`: OpenRouter GPT-6 Luna, cinco ferramentas somente de leitura, consentimento, histórico privado, limites persistidos de seis mensagens/minuto e trinta/dia, cinco ferramentas e três inferências por mensagem, timeout e tratamento de falhas.
+
+Em 03/11/2026 (04/11 UTC), as oito perguntas RF-06 passaram com o modelo real e fixtures sintéticas no Supabase local. Falha HTTP 503 do provedor passou em desktop/mobile por simulação Postman; logs confirmaram POST /api/v1/chat/completions com 503. A suíte simulada passou oito E2E, e a suíte real passou sete, mantendo os modos de evidência separados.
+
+Projeto Vercel `moliveiracaio/app-gastos-codex` criado e vinculado ao GitHub; variáveis configuradas. Domínio de produção previsto: `https://app-gastos-codex.vercel.app`. Callback adicionado à allowlist de Auth hospedado preservando as URLs existentes e demais configurações. Deploy final e smoke tests de produção ainda pendentes.
+
 ### Aplicação financeira
 
 Branch `feat/financial-workspace`: sessão SSR e proxy, cadastro/confirmação, login/logout e recuperação de senha, onboarding, seleção/criação de espaços, convites e integrantes, CRUD de transações com filtros/paginação, categorias próprias, dashboard e orçamento conectados ao schema `codex`. Migration 003 de relatórios aplicada no Supabase hospedado e local. A preferência de visualização é persistida.

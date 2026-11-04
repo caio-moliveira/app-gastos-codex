@@ -122,6 +122,39 @@ export type Database = {
           },
         ];
       };
+      ai_usage: {
+        Row: {
+          day: string;
+          minute: string;
+          minute_requests: number;
+          requests: number;
+          user_id: string;
+        };
+        ComputedFields: never;
+        Insert: {
+          day: string;
+          minute?: string;
+          minute_requests?: number;
+          requests?: number;
+          user_id: string;
+        };
+        Update: {
+          day?: string;
+          minute?: string;
+          minute_requests?: number;
+          requests?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "ai_usage_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "profiles";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
       budgets: {
         Row: {
           category_id: string;
@@ -463,6 +496,7 @@ export type Database = {
         Args: { p_space_id: string; p_user_id: string };
         Returns: undefined;
       };
+      reserve_ai_request: { Args: { p_space_id: string }; Returns: undefined };
       seed_categories: { Args: { p_space_id: string }; Returns: undefined };
     };
     Enums: {

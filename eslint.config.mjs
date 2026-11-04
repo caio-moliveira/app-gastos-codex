@@ -5,5 +5,6 @@ import nextTypescript from "eslint-config-next/typescript";
 export default defineConfig([
   ...nextVitals,
   ...nextTypescript,
+  { files: ["postman/mocks/**/*.js"], rules: { "@typescript-eslint/no-require-imports": "off" } },
   globalIgnores([".next/**", "out/**", "next-env.d.ts", ".agents/**", ".claude/**", "playwright-report/**", "test-results/**"]),
 ]);
