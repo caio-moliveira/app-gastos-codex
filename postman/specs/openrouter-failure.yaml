@@ -1,0 +1,19 @@
+openapi: 3.0.3
+info:
+  title: OpenRouter dependency failure contract
+  version: 1.0.0
+servers:
+  - url: https://openrouter.ai/api/v1
+paths:
+  /chat/completions:
+    post:
+      summary: Provider unavailable
+      responses:
+        '503':
+          description: Temporary provider outage
+          content:
+            application/json:
+              example:
+                error:
+                  code: 503
+                  message: Service unavailable

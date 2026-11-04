@@ -15,6 +15,7 @@ import {
 } from "@/components/forms";
 import { Navigation } from "@/components/navigation";
 import { EvolutionChart } from "@/components/overview-charts";
+import { AssistantPage } from "@/components/assistant-page";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -243,10 +244,7 @@ export default async function Page({
             />
           ) : (
             <div>
-              <EmptyState
-                text="O assistente está sendo conectado."
-                detail="Em breve você poderá consultar seus dados com segurança."
-              />
+              <AssistantPage space={space} conversation={query.conversation} />
             </div>
           )}
         </main>

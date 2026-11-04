@@ -29,6 +29,8 @@ jobs:
         run: npx supabase db lint -s codex --fail-on error --level warning
       - run: npx playwright install --with-deps chromium
       - name: Verify full application against isolated Supabase
+        run: npm install -g postman-cli@1.82.0
+      - name: Exercise application and provider failure
         run: npm run test:app
       - uses: actions/upload-artifact@v4
         if: always()

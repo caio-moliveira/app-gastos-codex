@@ -36,7 +36,7 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub', '90000000-0000-4000-8000-000000000001', true);
 
 do $$
-declare v_shared uuid; v_token text; v_category uuid; v_conversation uuid;
+declare v_shared uuid; v_token text; v_category uuid; v_conversation uuid; v_count integer;
 begin
   perform codex.ensure_profile();
   perform codex.ensure_profile();
@@ -103,6 +103,15 @@ begin
   perform set_config('test.conversation_a', v_conversation::text, true);
   insert into codex.ai_messages(conversation_id, role, content) values (v_conversation, 'user', 'Mensagem privada');
   insert into codex.ai_consents(policy_version) values ('2026-11-03');
+  for v_count in 1..6 loop
+    perform codex.reserve_ai_request(v_shared);
+  end loop;
+  begin
+    perform codex.reserve_ai_request(v_shared);
+    raise exception 'minute AI limit not enforced';
+  exception when raise_exception then
+    if sqlerrm <> 'Limite de uso atingido. Tente mais tarde.' then raise; end if;
+  end;
 end;
 $$;
 

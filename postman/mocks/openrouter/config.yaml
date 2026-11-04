@@ -1,0 +1,16 @@
+version: 1
+id: 9633d399-817f-4884-8190-7b7964089955
+name: openrouter
+slug: openrouter
+protocol: http
+interceptRequests: true
+origin: openrouter.ai
+port: 4500
+scenarios:
+  - name: default
+    path: ./default.js
+    default: true
+generatedFrom:
+  type: spec
+  mode: static
+  path: ../../specs/openrouter-failure.yaml
